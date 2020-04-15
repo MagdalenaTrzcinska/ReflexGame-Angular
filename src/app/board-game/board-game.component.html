@@ -1,0 +1,35 @@
+<br/>
+
+<div class="squaresLock" [hidden]="isHidden">
+  <div class="text-center text">
+    <br/>
+    <p> The game speed increases every 6 seconds.</p>
+    Don't lose your life and withstand to the end. <br/>
+    Get the most points. Good luck!
+    <br/>
+  </div>
+
+
+</div>
+<div class="row justify-content-center" (selectstart)="false">
+  <div class="border border-dark" style="width: 900px">
+    <div class="row justify-content-center">
+      <div class="justify-content-center" style="width: 330px">
+        <div class="single text-center" *ngFor="let board of boards; let i=index">
+          <div class="vcenter" style="min-width: 20px; min-height: 20px" (click)="onVerification(i)">{{board}}</div>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <div class="row justify-content-center">
+      <button [disabled]="isDisabledBtnStart" class="btn btn-lg border" style="margin-right: 5px"
+              (click)="onStartGame()">Start
+      </button>
+      <button class="btn btn-lg border" style="margin-left: 5px" (click)="onResetGame()">Reset</button>
+    </div>
+    <br/>
+  </div>
+</div>
+
+
+
