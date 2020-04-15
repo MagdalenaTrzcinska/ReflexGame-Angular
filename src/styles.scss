@@ -1,1 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
+
+.single {
+  width: 45px;
+  height: 45px;
+  border: 1px solid black;
+  float: left;
+  margin: 5px;
+  background-color: #e7f6f8;
+  cursor: pointer;
+
+  .vcenter {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 55px;
+
+  }
+}
+
+
+.squaresLock {
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: transparent;
+  width: 900px;
+  height: 330px;
+  position: absolute;
+  z-index: 2;
+
+  .text {
+    width: 50%;
+    height: 165px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    font-family: Chalkboard;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    background-color: #828c97;
+  }
+}
