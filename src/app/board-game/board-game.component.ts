@@ -9,7 +9,7 @@ import {GameService} from '../game.service';
 export class BoardGameComponent implements OnInit, DoCheck {
   isDisabledBtnStart: boolean;
   isHidden: boolean;
-  boards: Array<any>;
+  boards: Array<string>;
 
   constructor(private service: GameService) {
   }
@@ -25,15 +25,15 @@ export class BoardGameComponent implements OnInit, DoCheck {
   }
 
   onStartGame() {
-    return this.service.startTimer(), this.service.gameStart();
+    this.service.gameStart();
   }
 
-  onVerification(i) {
-    return this.service.onVerification(i);
+  onVerification(whichSquare) {
+    this.service.onVerification(whichSquare);
   }
 
   onResetGame() {
-    return this.service.onResetGame();
+    this.service.onResetGame();
   }
 
 }
