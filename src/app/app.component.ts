@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {GameService} from "./game.service";
 
 @Component({
   selector: 'app-root',
@@ -7,5 +6,4 @@ import {GameService} from "./game.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Reflex';
 }

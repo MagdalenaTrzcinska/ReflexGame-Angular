@@ -1,34 +1,28 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
-import {Game} from "./game";
+import {BehaviorSubject, Observable} from 'rxjs';
+import {Game} from './game';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-  firstSquareInTheArray: number = 0;
+  firstSquareInTheArray = 0;
   interval: number;
   game: number;
   gameSpeed: number;
-  timeOfAppearanceOfTheSquare: number = 2300;
-  timeTheSquareDisappears: number = 3300;
-
   randomSquares: number;
-  last: number;
-  boards: Array<string> = [' ', ' ', ' ', ' ', ' ', ' ',
-    ' ', ' ', ' ', ' ', ' ', ' ',
-    ' ', ' ', ' ', ' ', ' ', ' ',
-    ' ', ' ', ' ', ' ', ' ', ' ',
-    ' ', ' ', ' ', ' ', ' ', ' ',
-    ' ', ' ', ' ', ' ', ' ', ' '];
+  lastSquares: number;
 
-  selectedSquares: Array<number> = [];
-  isHidden: boolean = false;
-  isDisabledBtnStart: boolean = false;
+  boards: Array<string>;
+  selectedSquares: Array<number>;
+  isHidden: boolean;
+  isDisabledBtnStart: boolean;
+  timeOfAppearanceOfTheSquare: number;
+  timeTheSquareDisappears: number;
 
   private readonly subject: BehaviorSubject<Game>;
 
-  private gameState: Game =
+   gameState: Game =
     {
       life: 3,
       pkt: 0,
@@ -37,6 +31,23 @@ export class GameService {
 
   constructor() {
     this.subject = new BehaviorSubject<Game>(this.gameState);
+  }
+
+  newGame() {
+    this.isHidden = false;
+    this.isDisabledBtnStart = false;
+    this.gameState.pkt = 0;
+    this.gameState.life = 3;
+    this.selectedSquares = [];
+    this.gameState.time = 60;
+    this.timeOfAppearanceOfTheSquare = 2300;
+    this.timeTheSquareDisappears = 3300;
+    this.boards = [' ', ' ', ' ', ' ', ' ', ' ',
+      ' ', ' ', ' ', ' ', ' ', ' ',
+      ' ', ' ', ' ', ' ', ' ', ' ',
+      ' ', ' ', ' ', ' ', ' ', ' ',
+      ' ', ' ', ' ', ' ', ' ', ' ',
+      ' ', ' ', ' ', ' ', ' ', ' '];
   }
 
   getGameState(): Observable<Game>{
@@ -54,6 +65,7 @@ export class GameService {
   }
 
   gameStart() {
+    this.newGame();
     this.startTimer();
     this.isHidden = true;
     this.isDisabledBtnStart = true;
@@ -78,13 +90,13 @@ export class GameService {
   }
 
   onVerification(whichSquare) {
-    if (this.last !== whichSquare && this.selectedSquares.indexOf(whichSquare) !== -1) {
+    if (this.lastSquares !== whichSquare && this.selectedSquares.indexOf(whichSquare) !== -1) {
       this.gameState.pkt++;
     }
     if (this.randomSquares !== whichSquare) {
       this.gameState.life--;
     }
-    this.last = whichSquare;
+    this.lastSquares = whichSquare;
     this.checkIfEnd();
   }
 
@@ -96,23 +108,10 @@ export class GameService {
   }
 
   onResetGame() {
-    this.isHidden = false;
-    this.isDisabledBtnStart = false;
-    this.gameState.pkt = 0;
-    this.gameState.life = 3;
-    this.selectedSquares = [];
+    this.newGame();
     clearInterval(this.interval);
     clearInterval(this.game);
     clearInterval(this.gameSpeed);
-    this.gameState.time = 60;
-    this.timeOfAppearanceOfTheSquare = 2300;
-    this.timeTheSquareDisappears = 3300;
-    this.boards = [' ', ' ', ' ', ' ', ' ', ' ',
-      ' ', ' ', ' ', ' ', ' ', ' ',
-      ' ', ' ', ' ', ' ', ' ', ' ',
-      ' ', ' ', ' ', ' ', ' ', ' ',
-      ' ', ' ', ' ', ' ', ' ', ' ',
-      ' ', ' ', ' ', ' ', ' ', ' '];
   }
 }
 
