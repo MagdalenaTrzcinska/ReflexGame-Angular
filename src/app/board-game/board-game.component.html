@@ -1,6 +1,6 @@
 <br/>
 
-<div class="squaresLock" [hidden]="isHidden">
+<div class="squaresLock" [hidden]="isHiddenDescription">
   <div class="text-center text">
     <br/>
     <p> The game speed increases every 6 seconds.</p>
@@ -14,7 +14,7 @@
     <div class="row justify-content-center">
       <div class="justify-content-center" style="width: 330px">
         <div class="single text-center" *ngFor="let board of boards; let i=index">
-          <div class="vcenter" style="min-width: 20px; min-height: 20px" (click)="onVerification(i)">{{board}}</div>
+          <div class="vcenter" style="min-width: 20px; min-height: 20px" (click)="onTrafficVerification(i)">{{board}}</div>
         </div>
       </div>
     </div>

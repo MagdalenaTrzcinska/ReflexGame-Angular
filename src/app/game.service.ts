@@ -6,16 +6,14 @@ import {Game} from './game';
   providedIn: 'root'
 })
 export class GameService {
-  firstSquareInTheArray = 0;
   interval: number;
   game: number;
   gameSpeed: number;
-  randomSquares: number;
-  lastSquares: number;
-
+  randomSquare: number;
+  lastClickedSquares: number;
   boards: Array<string>;
   selectedSquares: Array<number>;
-  isHidden: boolean;
+  isHiddenDescription: boolean;
   isDisabledBtnStart: boolean;
   timeOfAppearanceOfTheSquare: number;
   timeTheSquareDisappears: number;
@@ -40,12 +38,12 @@ export class GameService {
   gameStart() {
     this.newGame();
     this.startTimer();
-    this.isHidden = true;
+    this.isHiddenDescription = true;
     this.isDisabledBtnStart = true;
     this.game = setInterval(() => {
-      this.randomSquares = Math.floor(Math.random() * 36);
-      this.boards[this.randomSquares] = 'O';
-      this.selectedSquares.push(this.randomSquares);
+      this.randomSquare = Math.floor(Math.random() * 36);
+      this.boards[this.randomSquare] = 'O';
+      this.selectedSquares.push(this.randomSquare);
       this.deleteSquare();
     }, this.timeOfAppearanceOfTheSquare);
 
@@ -56,7 +54,7 @@ export class GameService {
   }
 
   newGame() {
-    this.isHidden = false;
+    this.isHiddenDescription = false;
     this.isDisabledBtnStart = false;
     this.gameState.pkt = 0;
     this.gameState.life = 3;
@@ -84,19 +82,19 @@ export class GameService {
 
   deleteSquare() {
     setTimeout(() => {
-      this.boards[this.selectedSquares[this.firstSquareInTheArray]] = ' ';
-      this.selectedSquares.splice(this.firstSquareInTheArray, 1);
+      this.boards[this.selectedSquares[0]] = ' ';
+      this.selectedSquares.splice(0, 1);
     }, this.timeTheSquareDisappears);
   }
 
-  onVerification(whichSquare) {
-    if (this.lastSquares !== whichSquare && this.selectedSquares.indexOf(whichSquare) !== -1) {
+  onTrafficVerification(whichSquare: number) {
+    if (this.lastClickedSquares !== whichSquare && this.selectedSquares.indexOf(whichSquare) !== -1) {
       this.gameState.pkt++;
     }
-    if (this.randomSquares !== whichSquare) {
+    if (this.randomSquare !== whichSquare) {
       this.gameState.life--;
     }
-    this.lastSquares = whichSquare;
+    this.lastClickedSquares = whichSquare;
     this.checkIfEnd();
   }
 

@@ -8,7 +8,7 @@ import {GameService} from '../game.service';
 })
 export class BoardGameComponent implements DoCheck {
   isDisabledBtnStart: boolean;
-  isHidden: boolean;
+  isHiddenDescription: boolean;
   boards: Array<string>;
 
   constructor(private service: GameService) {
@@ -16,7 +16,7 @@ export class BoardGameComponent implements DoCheck {
   }
   ngDoCheck(): void {
     this.boards = this.service.boards;
-    this.isHidden = this.service.isHidden;
+    this.isHiddenDescription = this.service.isHiddenDescription;
     this.isDisabledBtnStart = this.service.isDisabledBtnStart;
   }
 
@@ -24,8 +24,8 @@ export class BoardGameComponent implements DoCheck {
     this.service.gameStart();
   }
 
-  onVerification(whichSquare) {
-    this.service.onVerification(whichSquare);
+  onTrafficVerification(whichSquare: number) {
+    this.service.onTrafficVerification(whichSquare);
   }
 
   onResetGame() {
