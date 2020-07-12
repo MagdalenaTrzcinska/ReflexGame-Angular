@@ -15,8 +15,6 @@ export class GameService {
   selectedSquares: Array<number>;
   isHiddenDescription: boolean;
   isDisabledBtnStart: boolean;
-  timeOfAppearanceOfTheSquare: number;
-  timeTheSquareDisappears: number;
 
   private readonly subject: BehaviorSubject<Game>;
 
@@ -36,20 +34,23 @@ export class GameService {
   }
 
   gameStart() {
+    let timeOfAppearanceOfTheSquare = 2300;
+    let timeTheSquareDisappears = 3300;
     this.newGame();
     this.startTimer();
     this.isHiddenDescription = true;
     this.isDisabledBtnStart = true;
+
     this.game = setInterval(() => {
       this.randomSquare = Math.floor(Math.random() * 36);
       this.boards[this.randomSquare] = 'O';
       this.selectedSquares.push(this.randomSquare);
-      this.deleteSquare();
-    }, this.timeOfAppearanceOfTheSquare);
+      this.deleteSquare(timeTheSquareDisappears);
+    }, timeOfAppearanceOfTheSquare);
 
     this.gameSpeed = setInterval(() => {
-      this.timeOfAppearanceOfTheSquare -= 300;
-      this.timeTheSquareDisappears -= 350;
+      timeOfAppearanceOfTheSquare -= 300;
+      timeTheSquareDisappears -= 350;
     }, 6000);
   }
 
@@ -60,8 +61,6 @@ export class GameService {
     this.gameState.life = 3;
     this.selectedSquares = [];
     this.gameState.time = 60;
-    this.timeOfAppearanceOfTheSquare = 2300;
-    this.timeTheSquareDisappears = 3300;
     this.boards = [' ', ' ', ' ', ' ', ' ', ' ',
       ' ', ' ', ' ', ' ', ' ', ' ',
       ' ', ' ', ' ', ' ', ' ', ' ',
@@ -80,11 +79,11 @@ export class GameService {
     }, 1000);
   }
 
-  deleteSquare() {
+  deleteSquare(timeTheSquareDisappears: number) {
     setTimeout(() => {
       this.boards[this.selectedSquares[0]] = ' ';
       this.selectedSquares.splice(0, 1);
-    }, this.timeTheSquareDisappears);
+    }, timeTheSquareDisappears);
   }
 
   onTrafficVerification(whichSquare: number) {

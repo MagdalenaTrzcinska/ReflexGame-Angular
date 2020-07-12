@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {GameService} from '../game.service';
 import {Game} from '../game';
 
@@ -8,11 +8,14 @@ import {Game} from '../game';
   templateUrl: './live-pkt-time.component.html',
   styleUrls: ['./live-pkt-time.component.scss']
 })
-export class LivePktTimeComponent {
+export class LivePktTimeComponent implements OnInit{
   gameState: Game;
 
   constructor(private service: GameService) {
-    service.getGameState().subscribe(game => {
+  }
+
+  ngOnInit() {
+    this.service.getGameState().subscribe(game => {
       this.gameState = game;
     });
   }
