@@ -12,8 +12,8 @@ export class BoardGameComponent implements DoCheck {
   boards: Array<string>;
 
   constructor(private service: GameService) {
-    this.boards = this.service.boards;
   }
+
   ngDoCheck(): void {
     this.boards = this.service.boards;
     this.isHiddenDescription = this.service.isHiddenDescription;
@@ -21,14 +21,14 @@ export class BoardGameComponent implements DoCheck {
   }
 
   onStartGame() {
-    this.service.gameStart();
+    return this.service.gameStart();
   }
 
   onTrafficVerification(whichSquare: number) {
-    this.service.onTrafficVerification(whichSquare);
+    return this.service.onTrafficVerification(whichSquare);
   }
 
   onResetGame() {
-    this.service.onResetGame();
+    return this.service.onResetGame();
   }
 }

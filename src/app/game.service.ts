@@ -6,9 +6,9 @@ import {Game} from './game';
   providedIn: 'root'
 })
 export class GameService {
-  interval: number;
-  game: number;
-  gameSpeed: number;
+  interval;
+  game;
+  gameSpeed;
   randomSquare: number;
   lastClickedSquares: number;
   boards: Array<string>;
