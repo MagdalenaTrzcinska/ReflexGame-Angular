@@ -15,7 +15,7 @@ export class BoardGameComponent implements DoCheck {
   }
 
   ngDoCheck(): void {
-    this.boards = this.service.boards;
+    this.boards = this.service.boardsOfSquares;
     this.isHiddenDescription = this.service.isHiddenDescription;
     this.isDisabledBtnStart = this.service.isDisabledBtnStart;
   }
@@ -25,7 +25,7 @@ export class BoardGameComponent implements DoCheck {
   }
 
   onTrafficVerification(whichSquare: number) {
-    return this.service.onTrafficVerification(whichSquare);
+    return this.service.onMovementVerification(whichSquare);
   }
 
   onResetGame() {

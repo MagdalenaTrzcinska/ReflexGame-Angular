@@ -6,30 +6,28 @@ import {Game} from './game';
   providedIn: 'root'
 })
 export class GameService {
+  isHiddenDescription: boolean;
+  isDisabledBtnStart: boolean;
+  randomSquare: number;
+  lastClickedSquares: number;
+  boardsOfSquares: Array<string>;
+  shownSquares: Array<number>;
+  gameState: Game = {
+      pkt: 0,
+      life: 3,
+      time: 60
+    };
   interval;
   game;
   gameSpeed;
-  randomSquare: number;
-  lastClickedSquares: number;
-  boards: Array<string>;
-  selectedSquares: Array<number>;
-  isHiddenDescription: boolean;
-  isDisabledBtnStart: boolean;
 
   private readonly subject: BehaviorSubject<Game>;
-
-   gameState: Game =
-    {
-      life: 3,
-      pkt: 0,
-      time: 60,
-    };
 
   constructor() {
     this.subject = new BehaviorSubject<Game>(this.gameState);
   }
 
-  getGameState(): Observable<Game>{
+  getGameState(): Observable<Game> {
     return this.subject;
   }
 
@@ -43,9 +41,9 @@ export class GameService {
 
     this.game = setInterval(() => {
       this.randomSquare = Math.floor(Math.random() * 36);
-      this.boards[this.randomSquare] = 'O';
-      this.selectedSquares.push(this.randomSquare);
-      this.deleteSquare(timeTheSquareDisappears);
+      this.boardsOfSquares[this.randomSquare] = 'O';
+      this.shownSquares.push(this.randomSquare);
+      this.deletingASquareFromTheBoard(timeTheSquareDisappears);
     }, timeOfAppearanceOfTheSquare);
 
     this.gameSpeed = setInterval(() => {
@@ -57,11 +55,13 @@ export class GameService {
   newGame() {
     this.isHiddenDescription = false;
     this.isDisabledBtnStart = false;
-    this.gameState.pkt = 0;
-    this.gameState.life = 3;
-    this.selectedSquares = [];
-    this.gameState.time = 60;
-    this.boards = [' ', ' ', ' ', ' ', ' ', ' ',
+    this.gameState = {
+      pkt: 0,
+      life: 3,
+      time: 60
+    };
+    this.shownSquares = [];
+    this.boardsOfSquares = [' ', ' ', ' ', ' ', ' ', ' ',
       ' ', ' ', ' ', ' ', ' ', ' ',
       ' ', ' ', ' ', ' ', ' ', ' ',
       ' ', ' ', ' ', ' ', ' ', ' ',
@@ -79,22 +79,30 @@ export class GameService {
     }, 1000);
   }
 
-  deleteSquare(timeTheSquareDisappears: number) {
+  deletingASquareFromTheBoard(timeTheSquareDisappears: number) {
     setTimeout(() => {
-      this.boards[this.selectedSquares[0]] = ' ';
-      this.selectedSquares.splice(0, 1);
+      this.boardsOfSquares[this.shownSquares[0]] = ' ';
+      this.shownSquares.splice(0, 1);
     }, timeTheSquareDisappears);
   }
 
-  onTrafficVerification(whichSquare: number) {
-    if (this.lastClickedSquares !== whichSquare && this.selectedSquares.indexOf(whichSquare) !== -1) {
-      this.gameState.pkt++;
+  onMovementVerification(whichSquare: number) {
+    if (this.lastClickedSquares !== whichSquare && this.shownSquares.indexOf(whichSquare) !== -1) {
+      this.pointAdded();
     }
     if (this.randomSquare !== whichSquare) {
-      this.gameState.life--;
+      this.deductionOfLife();
     }
     this.lastClickedSquares = whichSquare;
     this.checkIfEnd();
+  }
+
+  pointAdded() {
+    this.gameState.pkt++;
+  }
+
+  deductionOfLife() {
+    this.gameState.life--;
   }
 
   checkIfEnd() {
@@ -105,12 +113,9 @@ export class GameService {
   }
 
   onResetGame() {
-    this.newGame();
     clearInterval(this.interval);
     clearInterval(this.game);
     clearInterval(this.gameSpeed);
+    this.newGame();
   }
 }
-
-
-
